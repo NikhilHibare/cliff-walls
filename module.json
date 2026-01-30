@@ -1,0 +1,16 @@
+{
+  "id": "cliff-walls",
+  "title": "Cliff Walls",
+  "description": "Adds cliff type behaviour to walls",
+  "authors": [
+    {
+    "name": "Unreliable Ally"
+    }
+  ],
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "?",
+    "verified": "13.5"
+  },
+  "esmodules": ["scripts/startupMessage.js"]
+}
