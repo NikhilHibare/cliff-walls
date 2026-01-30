@@ -8,7 +8,9 @@
       "name": "Unreliable Ally"
     }
   ],
-  
+  "esmodules": [
+    "scripts/startupMessage.js"
+  ],
   "url": "https://github.com/NikhilHibare/cliff-walls",
   "manifest": "https://raw.githubusercontent.com/NikhilHibare/cliff-walls/main/module.json",
   "download": "https://github.com/NikhilHibare/cliff-walls/archive/main.zip",
