@@ -9,8 +9,8 @@
   ],
   "version": "1.0.0",
   "compatibility": {
-    "minimum": "?",
-    "verified": "13.5"
+    "minimum": "13",
+    "verified": "13"
   },
   "esmodules": ["scripts/startupMessage.js"],
   "url": "https://github.com/NikhilHibare/cliff-walls",
