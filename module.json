@@ -2,7 +2,7 @@
   "id": "cliff-walls",
   "title": "Cliff Walls",
   "description": "Adds cliff-type behavior to walls with height-based line-of-sight shadow logic",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "authors": [
     {
       "name": "Unreliable Ally"
