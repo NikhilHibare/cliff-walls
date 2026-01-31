@@ -6,13 +6,20 @@ export function computeShadowInterval({
 }) {
   if (distance <= 0) return null;
 
-  const topAngle = Math.atan((wallTop - actorEyeHeight) / distance);
-  const bottomAngle = Math.atan((wallBottom - actorEyeHeight) / distance);
+  // 🔴 FULL BLOCK RULES
+  if (actorEyeHeight <= wallTop) return null;
+  if (actorEyeHeight <= wallBottom) return null;
 
-  if (wallBottom >= actorEyeHeight) return null;
+  // Height differences
+  const topDelta = wallTop - actorEyeHeight;
+  const bottomDelta = wallBottom - actorEyeHeight;
+
+  // Convert to angles (shadow cone)
+  const start = Math.atan(bottomDelta / distance);
+  const end = Math.atan(topDelta / distance);
 
   return {
-    start: Math.min(topAngle, bottomAngle),
-    end: Math.max(topAngle, bottomAngle),
+    start: Math.min(start, end),
+    end: Math.max(start, end),
   };
 }

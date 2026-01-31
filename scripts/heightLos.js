@@ -2,26 +2,36 @@ import { computeShadowInterval } from "./losMath.js";
 import { drawShadowCone } from "./shadowRenderer.js";
 
 Hooks.once("ready", () => {
-  const originalCreatePolygon =
-    CONFIG.Canvas.visionSourceClass.prototype._createPolygon;
+  const VisionSource = CONFIG.Canvas.visionSourceClass;
+  const originalCreatePolygon = VisionSource.prototype._createPolygon;
 
-  CONFIG.Canvas.visionSourceClass.prototype._createPolygon = function () {
+  VisionSource.prototype._createPolygon = function () {
     const polygon = originalCreatePolygon.call(this);
     const token = this.object;
     if (!token || !token.actor) return polygon;
 
-    const actorEyeHeight =
-      token.actor.getFlag("cliff-walls", "height") ??
-      token.document.elevation ??
-      10;
+    // ✅ STRICT LOS HEIGHT RULE
+    const elevation = token.document.elevation ?? 0;
+    if (elevation <= 0) return polygon; // FULL BLOCK, no shadow math
+
+    const eyeHeight = token.actor.getFlag("cliff-walls", "height") ?? 6;
+
+    const actorEyeHeight = elevation + eyeHeight;
 
     const walls = canvas.walls.placeables.filter(
       (w) => w.document.flags["cliff-walls"]?.isCliff,
     );
 
     for (const wall of walls) {
-      const top = wall.document.top ?? 0;
-      const bottom = wall.document.bottom ?? 0;
+      // ✅ READ WALL HEIGHT FROM FLAGS
+      const top = wall.document.flags["cliff-walls"]?.top ?? 0;
+      const bottom = wall.document.flags["cliff-walls"]?.bottom ?? 0;
+
+      // 🔴 HARD BLOCK: actor below wall top
+      if (actorEyeHeight <= top) {
+        polygon.clipWall(wall);
+        continue;
+      }
 
       const distance = canvas.grid.measureDistance(token.center, wall.center);
 
@@ -30,11 +40,12 @@ Hooks.once("ready", () => {
         wallTop: top,
         wallBottom: bottom,
         distance,
+        token,
+        wall,
       });
 
       if (!shadow) continue;
 
-      // Clip vision polygon
       polygon.clipAngle(shadow.start, shadow.end);
 
       // Optional debug rendering
