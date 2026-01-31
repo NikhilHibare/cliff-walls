@@ -1,9 +1,16 @@
-console.log("Hello World! This code runs immediately when the file is loaded.");
+Hooks.once("init", () => {
+  console.log("Cliff Walls | Initializing module");
 
-Hooks.on("init", function() {
-  console.log("This code runs once the Foundry VTT software begins its initialization workflow.");
+  game.settings.register("cliff-walls", "debugShadows", {
+    name: "Debug Shadow Cones",
+    hint: "Draws height-based shadow cones for cliff walls (debug / performance cost).",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+  });
 });
 
-Hooks.on("ready", function() {
-  console.log("This code runs once core initialization is ready and game data is available.");
+Hooks.once("ready", () => {
+  console.log("Cliff Walls | Ready");
 });

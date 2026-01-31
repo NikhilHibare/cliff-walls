@@ -1,15 +1,18 @@
-export function blocksVisionByHeight({
+export function computeShadowInterval({
   actorEyeHeight,
-  wallTopHeight,
-  distanceToWall,
+  wallTop,
+  wallBottom,
+  distance,
 }) {
-  if (distanceToWall <= 0) return false;
+  if (distance <= 0) return null;
 
- 
-  const angle = Math.atan(wallTopHeight / distanceToWall);
+  const topAngle = Math.atan((wallTop - actorEyeHeight) / distance);
+  const bottomAngle = Math.atan((wallBottom - actorEyeHeight) / distance);
 
- 
-  const projectedHeight = Math.tan(angle) * distanceToWall;
+  if (wallBottom >= actorEyeHeight) return null;
 
-  return projectedHeight > actorEyeHeight;
+  return {
+    start: Math.min(topAngle, bottomAngle),
+    end: Math.max(topAngle, bottomAngle),
+  };
 }

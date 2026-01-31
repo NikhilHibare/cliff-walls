@@ -1,8 +1,8 @@
 {
   "id": "cliff-walls",
   "title": "Cliff Walls",
-  "description": "Adds cliff-type behavior to walls with height-based line-of-sight shadow logic",
-  "version": "1.0.0",
+  "description": "Adds cliff-type walls with true 3D height-based line-of-sight, partial visibility, and shadow cones",
+  "version": "1.1.0",
   "authors": [
     {
       "name": "Unreliable Ally"
@@ -10,7 +10,9 @@
   ],
   "esmodules": [
     "scripts/startupMessage.js",
+    "scripts/wallConfig.js",
     "scripts/losMath.js",
+    "scripts/shadowRenderer.js",
     "scripts/heightLos.js"
   ],
   "url": "https://github.com/NikhilHibare/cliff-walls",
