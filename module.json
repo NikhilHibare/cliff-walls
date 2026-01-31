@@ -10,10 +10,10 @@
   ],
   "esmodules": [
     "scripts/startupMessage.js",
+    "scripts/heightLos.js",
     "scripts/wallConfig.js",
     "scripts/losMath.js",
-    "scripts/shadowRenderer.js",
-    "scripts/heightLos.js"
+    "scripts/shadowRenderer.js"
   ],
   "url": "https://github.com/NikhilHibare/cliff-walls",
   "manifest": "https://raw.githubusercontent.com/NikhilHibare/cliff-walls/main/module.json",
