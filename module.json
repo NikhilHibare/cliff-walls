@@ -1,7 +1,7 @@
 {
   "id": "cliff-walls",
   "title": "Cliff Walls",
-  "description": "Adds cliff type behaviour to walls",
+  "description": "Adds cliff-type behavior to walls with height-based line-of-sight shadow logic",
   "version": "1.0.0",
   "authors": [
     {
@@ -9,13 +9,15 @@
     }
   ],
   "esmodules": [
-    "scripts/startupMessage.js"
+    "scripts/startupMessage.js",
+    "scripts/losMath.js",
+    "scripts/heightLos.js"
   ],
   "url": "https://github.com/NikhilHibare/cliff-walls",
   "manifest": "https://raw.githubusercontent.com/NikhilHibare/cliff-walls/main/module.json",
   "download": "https://github.com/NikhilHibare/cliff-walls/archive/main.zip",
   "compatibility": {
-    "minimum": "10",
+    "minimum": "13",
     "verified": "13.5"
   }
 }
