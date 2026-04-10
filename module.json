@@ -1,0 +1,18 @@
+{
+  "id": "hangman-game",
+  "title": "Hangman Game",
+  "description": "GM-controlled Hangman word game for FoundryVTT. GM sets up word lists, pre-revealed letters, difficulty and starts the game. Players get a play screen with keyboard, gallows animation, and monospace word display.",
+  "version": "2.0.0",
+  "compatibility": {
+    "minimum": "10",
+    "verified": "12"
+  },
+  "authors": [{ "name": "You" }],
+  "esmodules": ["scripts/main.js"],
+  "styles": ["styles/hangman.css"],
+  "languages": [{ "lang": "en", "name": "English", "path": "lang/en.json" }],
+  "socket": true,
+  "url": "",
+  "manifest": "",
+  "download": ""
+}

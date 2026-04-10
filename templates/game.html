@@ -1,0 +1,207 @@
+<div class="hmg-wrap {{#if waiting}}hmg-waiting{{/if}} {{#if isPlaying}}hmg-playing{{/if}} {{#if isWin}}hmg-win{{/if}} {{#if isLose}}hmg-lose{{/if}}">
+
+  <!-- ══════════════ WAITING SCREEN ══════════════ -->
+  {{#if waiting}}
+  <div class="hmg-wait-screen">
+    <div class="hmg-wait-icon">🎯</div>
+    <div class="hmg-wait-title">HANGMAN</div>
+    <div class="hmg-wait-msg">Waiting for the GM to start a game...</div>
+    {{#if stats.gamesPlayed}}
+    <div class="hmg-wait-stats">
+      <span>🏆 {{stats.wins}}W / {{stats.losses}}L</span>
+      <span>🔥 Streak: {{stats.streak}}</span>
+      <span>⭐ {{stats.totalScore}} pts</span>
+    </div>
+    {{/if}}
+  </div>
+  {{/if}}
+
+  <!-- ══════════════ PLAYING SCREEN ══════════════ -->
+  {{#unless waiting}}
+
+  <!-- Header -->
+  <div class="hmg-header">
+    <div class="hmg-logo">HANGMAN</div>
+    <div class="hmg-header-center">
+      <span class="hmg-category-badge">{{categoryName}}</span>
+    </div>
+    <div class="hmg-header-right">
+      {{#if hasTimer}}
+      <span class="hm-time-value" style="color:{{timeColor}}; font-family:monospace; font-size:18px; font-weight:700;">
+        {{timeDisplay}}
+      </span>
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="hmg-body">
+
+    <!-- ── LEFT COLUMN: gallows + scoreboard ── -->
+    <div class="hmg-left">
+
+      <!-- SVG Gallows -->
+      <div class="hmg-drawing-area">
+        <svg class="hmg-gallows" viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Scaffold (always shown) -->
+          <line x1="20" y1="240" x2="180" y2="240"
+            stroke="{{#if scaffoldDanger}}#ff6b35{{else}}#666{{/if}}"
+            stroke-width="4" stroke-linecap="round"/>
+          <line x1="60" y1="240" x2="60" y2="20"
+            stroke="{{#if scaffoldDanger}}#ff6b35{{else}}#666{{/if}}"
+            stroke-width="4" stroke-linecap="round"/>
+          <line x1="60" y1="20" x2="150" y2="20"
+            stroke="{{#if scaffoldDanger}}#ff6b35{{else}}#666{{/if}}"
+            stroke-width="4" stroke-linecap="round"/>
+          <line x1="150" y1="20" x2="150" y2="55"
+            stroke="{{#if scaffoldDanger}}#ff6b35{{else}}#666{{/if}}"
+            stroke-width="3" stroke-linecap="round"/>
+
+          <!-- Head -->
+          {{#if (gte bodyPartsToShow 1)}}
+          <circle class="hmg-bp" cx="150" cy="73" r="18" stroke="#ff2d55" stroke-width="3" fill="none"/>
+          {{/if}}
+          <!-- Body -->
+          {{#if (gte bodyPartsToShow 2)}}
+          <line class="hmg-bp" x1="150" y1="91" x2="150" y2="155" stroke="#ff2d55" stroke-width="3" stroke-linecap="round"/>
+          {{/if}}
+          <!-- Left arm -->
+          {{#if (gte bodyPartsToShow 3)}}
+          <line class="hmg-bp" x1="150" y1="108" x2="116" y2="133" stroke="#ff2d55" stroke-width="3" stroke-linecap="round"/>
+          {{/if}}
+          <!-- Right arm -->
+          {{#if (gte bodyPartsToShow 4)}}
+          <line class="hmg-bp" x1="150" y1="108" x2="184" y2="133" stroke="#ff2d55" stroke-width="3" stroke-linecap="round"/>
+          {{/if}}
+          <!-- Left leg -->
+          {{#if (gte bodyPartsToShow 5)}}
+          <line class="hmg-bp" x1="150" y1="155" x2="116" y2="198" stroke="#ff2d55" stroke-width="3" stroke-linecap="round"/>
+          {{/if}}
+          <!-- Right leg -->
+          {{#if (gte bodyPartsToShow 6)}}
+          <line class="hmg-bp" x1="150" y1="155" x2="184" y2="198" stroke="#ff2d55" stroke-width="3" stroke-linecap="round"/>
+          {{/if}}
+
+          <!-- Danger pulse -->
+          {{#if showPulse}}
+          <circle class="hmg-pulse" cx="150" cy="73" r="24" stroke="rgba(255,45,85,0.35)" stroke-width="8" fill="none"/>
+          {{/if}}
+        </svg>
+
+        <div class="hmg-wrong-counter">
+          <span style="color: {{#if wrongCount}}#ff2d55{{else}}#666{{/if}}; font-size:20px; font-weight:700;">
+            {{wrongCount}}
+          </span>
+          <span style="color:#555">/{{maxWrong}}</span>
+        </div>
+      </div>
+
+      <!-- Scoreboard panel -->
+      <div class="hmg-scoreboard">
+        {{#if hasTimer}}
+        <div class="hmg-sb-row">
+          <span class="hmg-sb-lbl">TIME</span>
+          <div class="hmg-sb-bar">
+            <div class="hm-time-bar-fill hmg-sb-fill" style="width:{{timePercent}}%;background:{{timeColor}}"></div>
+          </div>
+        </div>
+        {{/if}}
+        <div class="hmg-sb-row">
+          <span class="hmg-sb-lbl">WRONG</span>
+          <div class="hmg-sb-bar">
+            <div class="hmg-sb-fill" style="width:{{wrongPercent}}%;background:{{wrongColor}}"></div>
+          </div>
+        </div>
+        <div class="hmg-sb-divider"></div>
+        <div class="hmg-sb-grid">
+          <div class="hmg-sb-stat"><span class="hmg-sb-val">{{stats.wins}}</span><span class="hmg-sb-key">Wins</span></div>
+          <div class="hmg-sb-stat"><span class="hmg-sb-val">{{stats.losses}}</span><span class="hmg-sb-key">Losses</span></div>
+          <div class="hmg-sb-stat"><span class="hmg-sb-val" style="color:#ffd60a">{{stats.streak}}</span><span class="hmg-sb-key">Streak</span></div>
+          <div class="hmg-sb-stat"><span class="hmg-sb-val" style="color:#bf5af2">{{winRate}}%</span><span class="hmg-sb-key">W-Rate</span></div>
+          <div class="hmg-sb-stat"><span class="hmg-sb-val" style="color:#0a84ff">{{stats.bestStreak}}</span><span class="hmg-sb-key">Best</span></div>
+          <div class="hmg-sb-stat"><span class="hmg-sb-val" style="color:#30d158">{{stats.totalScore}}</span><span class="hmg-sb-key">Pts</span></div>
+        </div>
+        {{#if hintUsed}}<div class="hmg-hint-badge">💡 Hint used</div>{{/if}}
+      </div>
+    </div>
+
+    <!-- ── RIGHT COLUMN: word + keyboard ── -->
+    <div class="hmg-right">
+
+      <!-- ── WORD DISPLAY ── -->
+      <div class="hmg-word-area">
+        <div class="hmg-word-display">
+          {{#each wordLetters}}
+          <div class="hmg-letter-slot">
+            <span class="hmg-letter
+              {{#if show}}hmg-letter--show{{/if}}
+              {{#if wrongReveal}}hmg-letter--wrong{{/if}}">
+              {{#if show}}{{letter}}{{/if}}
+            </span>
+            <span class="hmg-underline {{#if revealed}}hmg-underline--green{{/if}}"></span>
+          </div>
+          {{/each}}
+        </div>
+        <div class="hmg-word-meta">{{wordLength}} letters</div>
+      </div>
+
+      <!-- ── WRONG LETTERS ── -->
+      <div class="hmg-wrong-chips">
+        {{#each wrongGuesses}}
+        <span class="hmg-wrong-chip">{{this}}</span>
+        {{/each}}
+      </div>
+
+      <!-- ── HINT ── -->
+      {{#if isPlaying}}
+      <button class="hmg-hint-btn {{#if hintUsed}}hmg-hint-btn--used{{/if}}"
+        {{#if hintUsed}}disabled{{/if}}>
+        💡 {{#if hintUsed}}Hint used (-50 pts){{else}}Use Hint (-50 pts){{/if}}
+      </button>
+      {{/if}}
+
+      <!-- ── KEYBOARD ── -->
+      {{#if isPlaying}}
+      <div class="hmg-keyboard">
+        {{#each keyboard}}
+        <div class="hmg-key-row">
+          {{#each this}}
+          <button class="hmg-key hmg-key--{{state}}"
+            data-letter="{{letter}}"
+            {{#unless (eq state "idle")}}disabled{{/unless}}>
+            {{letter}}
+          </button>
+          {{/each}}
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      <!-- ── GAME OVER OVERLAY ── -->
+      {{#unless isPlaying}}
+      <div class="hmg-result">
+        <div class="hmg-result-emoji">{{#if isWin}}🎉{{else}}💀{{/if}}</div>
+        <div class="hmg-result-title">{{#if isWin}}YOU WIN!{{else}}GAME OVER{{/if}}</div>
+
+        <div class="hmg-result-word">
+          {{#each wordLetters}}<span class="hmg-result-letter">{{letter}}</span>{{/each}}
+        </div>
+
+        {{#if isWin}}
+        <div class="hmg-result-score">
+          <span class="hmg-result-score-num">+{{score}}</span>
+          <span class="hmg-result-score-lbl">pts</span>
+        </div>
+        {{/if}}
+
+        <button class="hm-play-again-btn">
+          {{#if isWin}}▶ Play Again{{else}}▶ Try Again{{/if}}
+        </button>
+        <div class="hmg-result-hint">Ask the GM to start a new round</div>
+      </div>
+      {{/unless}}
+
+    </div><!-- /right -->
+  </div><!-- /body -->
+  {{/unless}}
+
+</div>

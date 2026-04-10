@@ -1,0 +1,85 @@
+<div class="hms-wrap">
+
+  <!-- ══ Header ══ -->
+  <div class="hms-header">
+    <span class="hms-logo">⚙ HANGMAN SETUP</span>
+    <span class="hms-role-badge">GM Only</span>
+  </div>
+
+  <!-- ══ Category Name ══ -->
+  <div class="hms-section">
+    <div class="hms-section-label">CATEGORY / ROUND NAME</div>
+    <input class="hms-category-input hms-text-input" type="text" value="{{categoryName}}" placeholder="e.g. Fantasy Creatures">
+  </div>
+
+  <!-- ══ Word List ══ -->
+  <div class="hms-section hms-words-section">
+    <div class="hms-section-label">WORD LIST <span class="hms-word-count">({{words.length}} words)</span></div>
+
+    <div class="hms-word-list">
+      {{#if words.length}}
+        {{#each words}}
+        <div class="hms-word-chip">
+          <span class="hms-word-text">{{word}}</span>
+          <button class="hms-remove-word" data-index="{{index}}" title="Remove">✕</button>
+        </div>
+        {{/each}}
+      {{else}}
+        <div class="hms-empty-words">No words yet. Add some below.</div>
+      {{/if}}
+    </div>
+
+    <div class="hms-word-add-row">
+      <input class="hms-new-word-input hms-text-input" type="text" placeholder="Type a word and press Add or Enter">
+      <button class="hms-add-word-btn">Add</button>
+    </div>
+
+    <div class="hms-import-row">
+      <input class="hms-import-input hms-text-input" type="text" placeholder="Comma-separated bulk import: apple, banana, cherry">
+      <button class="hms-import-btn">Import</button>
+    </div>
+
+    <button class="hms-clear-words">🗑 Clear All Words</button>
+  </div>
+
+  <!-- ══ Pre-Revealed Letters ══ -->
+  <div class="hms-section">
+    <div class="hms-section-label">PRE-REVEALED LETTERS <span class="hms-hint-text">— shown to players from the start</span></div>
+    <div class="hms-alphabet-grid">
+      {{#each alphabet}}
+      <button class="hms-letter-toggle {{#if active}}active{{/if}}" data-letter="{{letter}}">{{letter}}</button>
+      {{/each}}
+    </div>
+    <button class="hms-clear-revealed">Clear all revealed</button>
+  </div>
+
+  <!-- ══ Difficulty ══ -->
+  <div class="hms-section">
+    <div class="hms-section-label">DIFFICULTY SETTINGS</div>
+    <div class="hms-diff-grid">
+
+      <div class="hms-field-group">
+        <label class="hms-label">Max Wrong Guesses</label>
+        <input class="hms-field hms-number-input" type="number" min="1" max="12" value="{{maxWrong}}" data-key="maxWrong">
+      </div>
+
+      <div class="hms-field-group">
+        <label class="hms-label">Time Limit (sec, 0 = none)</label>
+        <input class="hms-field hms-number-input" type="number" min="0" max="600" value="{{timeLimit}}" data-key="timeLimit">
+      </div>
+
+      <div class="hms-field-group">
+        <label class="hms-label">Score Multiplier</label>
+        <input class="hms-field hms-number-input" type="number" min="0.1" max="10" step="0.1" value="{{scoreMultiplier}}" data-key="scoreMultiplier">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ Actions ══ -->
+  <div class="hms-actions">
+    <button class="hms-start-btn">▶ Start Game for All Players</button>
+    <button class="hms-stop-btn">■ Stop Game</button>
+  </div>
+
+</div>
